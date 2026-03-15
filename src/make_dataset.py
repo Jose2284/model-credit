@@ -7,6 +7,10 @@ import numpy as np
 import os
 
 
+# Lista de Variables pre-seleccionadas
+model_features = ['SEX','PAY_1','AGE','LIMIT_BAL','CV_LPAY_TOT','CV_LBILL_TOT','CANT_PAY_MAY0','BILL_AMT1','LOG_BILL_AMT1','AVG_LPAY_TOT','STD_PAY_TOT','AVG_EXP_1']
+
+
 # Leemos los archivos csv
 def read_file_csv(filename):
     df = pd.read_csv(os.path.join('../data/raw/', filename)).set_index('ID')
@@ -69,20 +73,20 @@ def data_exporting(df, features, filename):
 
 
 # Generamos las matrices de datos que se necesitan para la implementación
-
 def main():
     # Matriz de Entrenamiento
     df1 = read_file_csv('defaultcc.csv')
     tdf1 = data_preparation(df1)
-    data_exporting(tdf1, ['SEX','PAY_1','AGE','LIMIT_BAL','CV_LPAY_TOT','CV_LBILL_TOT','CANT_PAY_MAY0','BILL_AMT1','LOG_BILL_AMT1','AVG_LPAY_TOT','STD_PAY_TOT','AVG_EXP_1','DEFAULT'],'credit_train.csv')
+    data_exporting(tdf1, model_features + ['DEFAULT'],'credit_train.csv')
     # Matriz de Validación
     df2 = read_file_csv('defaultcc_new.csv')
     tdf2 = data_preparation(df2)
-    data_exporting(tdf2, ['SEX','PAY_1','AGE','LIMIT_BAL','CV_LPAY_TOT','CV_LBILL_TOT','CANT_PAY_MAY0','BILL_AMT1','LOG_BILL_AMT1','AVG_LPAY_TOT','STD_PAY_TOT','AVG_EXP_1','DEFAULT'],'credit_val.csv')
+    data_exporting(tdf2, model_features + ['DEFAULT'],'credit_val.csv')
     # Matriz de Scoring
     df3 = read_file_csv('defaultcc_score.csv')
     tdf3 = data_preparation(df3)
-    data_exporting(tdf3, ['SEX','PAY_1','AGE','LIMIT_BAL','CV_LPAY_TOT','CV_LBILL_TOT','CANT_PAY_MAY0','BILL_AMT1','LOG_BILL_AMT1','AVG_LPAY_TOT','STD_PAY_TOT','AVG_EXP_1'],'credit_score.csv')
-    
+    data_exporting(tdf3, model_features,'credit_score.csv')
+
+
 if __name__ == "__main__":
     main()
